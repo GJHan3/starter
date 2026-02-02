@@ -27,3 +27,14 @@ vim.g.clipboard = {
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See :help 'clipboard'
 vim.opt.clipboard = "unnamedplus"
+
+-- 设置窗口分隔符，使窗口边界更清晰
+vim.opt.fillchars = {
+  horiz = "━",     -- 水平分隔线
+  horizup = "┻",   -- 水平向上连接
+  horizdown = "┳", -- 水平向下连接
+  vert = "┃",      -- 垂直分隔线
+  vertleft = "┫",  -- 垂直向左连接
+  vertright = "┣", -- 垂直向右连接
+  verthoriz = "╋", -- 交叉连接
+}
