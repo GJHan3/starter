@@ -18,10 +18,16 @@ return {
       local actions = require("telescope.actions")
       local lga_actions = require("telescope-live-grep-args.actions")
 
-      -- 自定义 action：发送到 quickfix 然后打开 Trouble
+      -- 自定义 action：发送到 quickfix 然后打开 Trouble 并聚焦
       local function send_to_trouble(prompt_bufnr)
         actions.send_to_qflist(prompt_bufnr)
-        vim.cmd("Trouble qflist open")
+        vim.schedule(function()
+          -- 先关闭可能存在的 qflist，确保重新打开
+          vim.cmd("Trouble qflist close")
+          vim.defer_fn(function()
+            vim.cmd("Trouble qflist open focus=true")
+          end, 50)
+        end)
       end
 
       -- 合并到默认 mappings（与 LazyVim 的方式一致）

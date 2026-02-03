@@ -18,3 +18,41 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 
 -- 立即应用当前配色方案的分隔线设置
 vim.api.nvim_set_hl(0, "WinSeparator", { fg = "#ffaa00", bg = "NONE" })
+
+-- 在 Trouble 窗口中设置智能跳转
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "trouble",
+  callback = function(event)
+    vim.keymap.set("n", "<cr>", function()
+      -- 保存当前 trouble 窗口
+      local trouble_win = vim.api.nvim_get_current_win()
+
+      -- 查找最近使用的编辑窗口
+      local special_fts = { "trouble", "neo-tree", "qf", "help", "terminal" }
+      local target_win = nil
+
+      for _, win in ipairs(vim.api.nvim_list_wins()) do
+        if win ~= trouble_win then
+          local ok, buf = pcall(vim.api.nvim_win_get_buf, win)
+          if ok then
+            local ft = vim.bo[buf].filetype or ""
+            local bt = vim.bo[buf].buftype or ""
+
+            if not vim.tbl_contains(special_fts, ft) and bt == "" then
+              target_win = win
+              break
+            end
+          end
+        end
+      end
+
+      -- 切换到目标窗口
+      if target_win then
+        vim.api.nvim_set_current_win(target_win)
+      end
+
+      -- 执行 Trouble 的跳转
+      require("trouble").jump()
+    end, { buffer = event.buf, desc = "Jump to item in last used window" })
+  end,
+})
