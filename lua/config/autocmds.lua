@@ -19,6 +19,9 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 -- 立即应用当前配色方案的分隔线设置
 vim.api.nvim_set_hl(0, "WinSeparator", { fg = "#ffaa00", bg = "NONE" })
 
+-- 设置 winbar 显示文件名
+vim.opt.winbar = "%{%v:lua.require'plugins.winbar-simple'.winbar()%}"
+
 -- 在 Trouble 窗口中设置智能跳转
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "trouble",
