@@ -13,17 +13,17 @@ vim.api.nvim_create_autocmd("ColorScheme", {
   callback = function()
     -- 设置垂直分隔线的颜色为黄色
     vim.api.nvim_set_hl(0, "WinSeparator", { fg = "#ffaa00", bg = "NONE" })
-    -- 设置 winbar 的颜色 - 明亮清晰
-    vim.api.nvim_set_hl(0, "WinBar", { fg = "#ffffff", bg = "#2a2a2a", bold = true })
-    -- 设置非当前窗口的 winbar 颜色
-    vim.api.nvim_set_hl(0, "WinBarNC", { fg = "#aaaaaa", bg = "#1a1a1a" })
+    -- 设置 winbar 的颜色 - 青色明亮
+    vim.api.nvim_set_hl(0, "WinBar", { fg = "#00ffff", bg = "#1a2a2a", bold = true })
+    -- 设置非当前窗口的 winbar 颜色 - 暗青色
+    vim.api.nvim_set_hl(0, "WinBarNC", { fg = "#008888", bg = "#1a1a1a" })
   end,
 })
 
 -- 立即应用当前配色方案的设置
 vim.api.nvim_set_hl(0, "WinSeparator", { fg = "#ffaa00", bg = "NONE" })
-vim.api.nvim_set_hl(0, "WinBar", { fg = "#ffffff", bg = "#2a2a2a", bold = true })
-vim.api.nvim_set_hl(0, "WinBarNC", { fg = "#aaaaaa", bg = "#1a1a1a" })
+vim.api.nvim_set_hl(0, "WinBar", { fg = "#00ffff", bg = "#1a2a2a", bold = true })
+vim.api.nvim_set_hl(0, "WinBarNC", { fg = "#008888", bg = "#1a1a1a" })
 
 -- 设置 winbar 显示文件名
 vim.opt.winbar = "%{%v:lua.require'utils.winbar'.winbar()%}"
