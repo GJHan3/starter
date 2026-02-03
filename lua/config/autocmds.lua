@@ -20,7 +20,7 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 vim.api.nvim_set_hl(0, "WinSeparator", { fg = "#ffaa00", bg = "NONE" })
 
 -- 设置 winbar 显示文件名
-vim.opt.winbar = "%{%v:lua.require'plugins.winbar-simple'.winbar()%}"
+vim.opt.winbar = "%{%v:lua.require'utils.winbar'.winbar()%}"
 
 -- 在 Trouble 窗口中设置智能跳转
 vim.api.nvim_create_autocmd("FileType", {
