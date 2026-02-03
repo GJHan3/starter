@@ -3,62 +3,60 @@ return {
   {
     "s1n7ax/nvim-window-picker",
     name = "window-picker",
-    event = "VeryLazy",
+    lazy = false, -- 立即加载
     version = "2.*",
-    opts = {
-      hint = "floating-big-letter", -- 显示大字母提示
-      show_prompt = true,
-      prompt_message = "Pick a window: ",
-      filter_rules = {
-        -- 过滤特殊窗口
-        autoselect_one = true, -- 只有一个窗口时自动选择
-        include_current_win = false, -- 排除当前窗口
-        bo = {
-          -- 排除这些 buffer 类型的窗口
-          filetype = { "neo-tree", "neo-tree-popup", "notify", "noice", "trouble" },
-          buftype = { "terminal", "quickfix" },
-        },
-      },
-      -- 高亮配置
-      highlights = {
-        statusline = {
-          focused = {
-            fg = "#ededed",
-            bg = "#e35e4f",
-            bold = true,
-          },
-          unfocused = {
-            fg = "#ededed",
-            bg = "#44cc41",
-            bold = true,
+    config = function()
+      require("window-picker").setup({
+        hint = "floating-big-letter", -- 显示大字母提示
+        show_prompt = true,
+        prompt_message = "Pick a window: ",
+        filter_rules = {
+          -- 过滤特殊窗口
+          autoselect_one = true, -- 只有一个窗口时自动选择
+          include_current_win = false, -- 排除当前窗口
+          bo = {
+            -- 排除这些 buffer 类型的窗口
+            filetype = { "neo-tree", "neo-tree-popup", "notify", "noice", "trouble" },
+            buftype = { "terminal", "quickfix" },
           },
         },
-        winbar = {
-          focused = {
-            fg = "#ededed",
-            bg = "#e35e4f",
-            bold = true,
+        -- 高亮配置
+        highlights = {
+          statusline = {
+            focused = {
+              fg = "#ededed",
+              bg = "#e35e4f",
+              bold = true,
+            },
+            unfocused = {
+              fg = "#ededed",
+              bg = "#44cc41",
+              bold = true,
+            },
           },
-          unfocused = {
-            fg = "#ededed",
-            bg = "#44cc41",
-            bold = true,
+          winbar = {
+            focused = {
+              fg = "#ededed",
+              bg = "#e35e4f",
+              bold = true,
+            },
+            unfocused = {
+              fg = "#ededed",
+              bg = "#44cc41",
+              bold = true,
+            },
           },
         },
-      },
-    },
-    keys = {
-      {
-        "gw",
-        function()
-          local window_number = require("window-picker").pick_window()
-          if window_number then
-            vim.api.nvim_set_current_win(window_number)
-          end
-        end,
-        desc = "Pick Window",
-      },
-    },
+      })
+
+      -- 直接设置全局快捷键
+      vim.keymap.set("n", "gw", function()
+        local window_number = require("window-picker").pick_window()
+        if window_number then
+          vim.api.nvim_set_current_win(window_number)
+        end
+      end, { desc = "Pick Window" })
+    end,
   },
 
   -- 或者使用内置的更轻量级方案（备选）
