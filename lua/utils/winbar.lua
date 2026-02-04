@@ -14,7 +14,16 @@ function M.winbar()
     "terminal",
     "lazy",
     "mason",
+    "snacks_dashboard",
+    "snacks_notif",
+    "snacks_terminal",
+    "snacks_win",
   }
+
+  -- 也排除包含 "snacks" 的 filetype
+  if filetype:match("snacks") then
+    return ""
+  end
 
   if vim.tbl_contains(excluded_filetypes, filetype) then
     return ""
@@ -24,9 +33,9 @@ function M.winbar()
   local filename = vim.fn.expand("%:t")
   local filepath = vim.fn.expand("%:~:.:h")
 
-  -- 如果没有文件名，显示 [No Name]
+  -- 如果没有文件名，不显示 winbar
   if filename == "" then
-    filename = "[No Name]"
+    return ""
   end
 
   -- 检查是否修改

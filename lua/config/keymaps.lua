@@ -2,6 +2,29 @@
 -- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
 -- Add any additional keymaps here
 
+-- Git diff 对比
+vim.keymap.set("n", "<leader>gd", function()
+  require("gitsigns").diffthis()
+end, { desc = "Git Diff" })
+
+-- 关闭 diff
+vim.keymap.set("n", "<leader>gq", function()
+  -- 先关闭 diff 模式
+  vim.cmd("diffoff!")
+
+  -- 关闭 gitsigns 创建的历史版本窗口
+  for _, win in ipairs(vim.api.nvim_list_wins()) do
+    local buf = vim.api.nvim_win_get_buf(win)
+    local bufname = vim.api.nvim_buf_get_name(buf)
+    local buftype = vim.bo[buf].buftype
+
+    -- gitsigns 创建的窗口特征：bufname 包含 "gitsigns://" 或 buftype 为 "nofile"
+    if bufname:match("gitsigns://") or (buftype == "nofile" and bufname:match("^/")) then
+      pcall(vim.api.nvim_win_close, win, true)
+    end
+  end
+end, { desc = "Close Diff" })
+
 -- 快速聚焦到 Trouble 窗口
 vim.keymap.set("n", "<leader>xf", function()
   -- 查找 Trouble 窗口并聚焦
