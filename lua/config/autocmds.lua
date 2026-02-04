@@ -28,6 +28,38 @@ vim.api.nvim_set_hl(0, "WinBarNC", { fg = "#008888", bg = "#1a1a1a" })
 -- 设置 winbar 显示文件名
 vim.opt.winbar = "%{%v:lua.require'utils.winbar'.winbar()%}"
 
+-- 自动关闭空的 [No Name] buffer
+vim.api.nvim_create_autocmd("BufEnter", {
+  pattern = "*",
+  callback = function()
+    -- 获取当前 buffer
+    local current_buf = vim.api.nvim_get_current_buf()
+    local current_name = vim.api.nvim_buf_get_name(current_buf)
+
+    -- 只在打开有名字的文件时触发
+    if current_name ~= "" then
+      -- 查找所有空的 [No Name] buffer
+      for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+        if buf ~= current_buf and vim.api.nvim_buf_is_valid(buf) and vim.api.nvim_buf_is_loaded(buf) then
+          local name = vim.api.nvim_buf_get_name(buf)
+          local modified = vim.bo[buf].modified
+          local buftype = vim.bo[buf].buftype
+
+          -- 如果是空名字、未修改、非特殊类型的 buffer
+          if name == "" and not modified and buftype == "" then
+            -- 延迟删除，避免影响当前操作
+            vim.defer_fn(function()
+              if vim.api.nvim_buf_is_valid(buf) then
+                pcall(vim.api.nvim_buf_delete, buf, { force = false })
+              end
+            end, 100)
+          end
+        end
+      end
+    end
+  end,
+})
+
 -- 在 Trouble 窗口中设置智能跳转
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "trouble",
