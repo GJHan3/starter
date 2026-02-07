@@ -38,3 +38,7 @@ vim.opt.fillchars = {
   vertright = "┣", -- 垂直向右连接
   verthoriz = "╋", -- 交叉连接
 }
+
+-- 使用绝对行号而不是相对行号
+vim.opt.relativenumber = false
+vim.opt.number = true
