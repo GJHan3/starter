@@ -21,17 +21,18 @@ return {
         -- C/C++ LSP
         clangd = {
           cmd = {
-            "clangd",
+            "clangd", -- 使用默认 clangd（已链接到 clangd-18）
             "--background-index",
             "--clang-tidy",
-            "--header-insertion=iwyu",
+            "--header-insertion=never", -- 内核代码不需要自动插入头文件
             "--completion-style=detailed",
             "--function-arg-placeholders",
             "--fallback-style=llvm",
+            "--query-driver=/usr/bin/aarch64-linux-gnu-gcc,/usr/bin/gcc", -- 让 clangd 理解交叉编译器
           },
           init_options = {
             usePlaceholders = true,
-            completeUnimported = true,
+            completeUnimported = false, -- 内核代码关闭
             clangdFileStatus = true,
           },
         },
