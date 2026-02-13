@@ -25,20 +25,27 @@ vim.keymap.set("n", "<leader>gq", function()
   end
 end, { desc = "Close Diff" })
 
--- 快速聚焦到 Trouble 窗口
+-- 快速聚焦到搜索结果窗口（Trouble/Quickfix/Telescope）
 vim.keymap.set("n", "<leader>xf", function()
-  -- 查找 Trouble 窗口并聚焦
+  -- 优先查找 Trouble 窗口
   for _, win in ipairs(vim.api.nvim_list_wins()) do
     local buf = vim.api.nvim_win_get_buf(win)
     local filetype = vim.bo[buf].filetype
-    if filetype == "trouble" then
+    local buftype = vim.bo[buf].buftype
+
+    -- 查找 Trouble、Quickfix、Telescope 等搜索结果窗口
+    if filetype == "trouble" or
+       filetype == "qf" or
+       buftype == "quickfix" or
+       filetype == "TelescopePrompt" then
       vim.api.nvim_set_current_win(win)
       return
     end
   end
-  -- 如果没有打开的 Trouble 窗口，提示用户
-  vim.notify("No Trouble window found", vim.log.levels.WARN)
-end, { desc = "Focus Trouble Window" })
+
+  -- 如果没有打开的搜索窗口，尝试打开 Trouble
+  vim.notify("No search result window found", vim.log.levels.WARN)
+end, { desc = "Focus Search Result Window" })
 
 -- 智能窗口分割：避免在特殊窗口（Trouble、NeoTree 等）中分割
 local function smart_split(split_cmd)
