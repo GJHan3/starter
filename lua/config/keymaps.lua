@@ -74,6 +74,16 @@ end
 vim.keymap.set("n", "<C-w>v", smart_split("vsplit"), { desc = "Smart Vertical Split" })
 vim.keymap.set("n", "<C-w>s", smart_split("split"), { desc = "Smart Horizontal Split" })
 
+-- 窗口大小调整快捷键
+vim.keymap.set("n", "<leader>w+", "<cmd>vertical resize +10<cr>", { desc = "Increase window width" })
+vim.keymap.set("n", "<leader>w-", "<cmd>vertical resize -10<cr>", { desc = "Decrease window width" })
+vim.keymap.set("n", "<leader>w>", "<cmd>vertical resize +5<cr>", { desc = "Increase window width (small)" })
+vim.keymap.set("n", "<leader>w<", "<cmd>vertical resize -5<cr>", { desc = "Decrease window width (small)" })
+vim.keymap.set("n", "<leader>wh", "<cmd>resize +5<cr>", { desc = "Increase window height" })
+vim.keymap.set("n", "<leader>wl", "<cmd>resize -5<cr>", { desc = "Decrease window height" })
+vim.keymap.set("n", "<leader>w=", "<C-w>=", { desc = "Balance window sizes" })
+vim.keymap.set("n", "<leader>wm", "<C-w>|<C-w>_", { desc = "Maximize current window" })
+
 -- 终端模式配置
 -- 使用 ESC 退出终端模式到普通模式
 vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
