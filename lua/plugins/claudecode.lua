@@ -4,7 +4,7 @@ return {
   opts = {
     -- 终端配置
     split_side = "right", -- Claude 终端在右侧
-    split_width_percentage = 0.35, -- 占 35% 宽度
+    split_width_percentage = 0.40, -- 占 40% 宽度（优化 tmux 环境显示）
     auto_start = true, -- 自动启动 WebSocket 服务器
     provider = "snacks", -- 使用 snacks 终端
 
