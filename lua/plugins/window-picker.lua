@@ -17,7 +17,7 @@ return {
           bo = {
             -- 排除这些 buffer 类型的窗口
             filetype = { "neo-tree", "neo-tree-popup", "notify", "noice", "trouble" },
-            buftype = { "terminal", "quickfix" },
+            buftype = { "quickfix" }, -- 移除 terminal，允许选择 Claude 终端
           },
         },
         -- 高亮配置
